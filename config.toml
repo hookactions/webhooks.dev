@@ -1,0 +1,40 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Webhooks.dev"
+themesDir = "themes"
+theme = "hugo-whisper-theme"
+
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+pygmentsUseClasses = true
+
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "Docs"
+    url = "/docs/"
+    weight = 2
+
+[params]
+  google_analytics_id=""
+  homepage_button_link = '/docs'
+  homepage_button_text = 'Read The Docs'
+  homepage_intro = 'Webhooks.dev is a place to learn about building, managing, and securing webhooks.'
+
+  [params.homepage_meta_tags]
+    meta_description = "Webhooks.dev is a place to learn about building, managing, and securing webhooks."
+    meta_og_title = "Webhooks.dev"
+    meta_og_type = "website"
+    meta_og_url = "https://webhooks.dev"
+    meta_og_image = "/images/ha_logo_blue.png"
+    meta_og_description = "Webhooks.dev is a place to learn about building, managing, and securing webhooks."
+    meta_twitter_card = "summary"
+    meta_twitter_site = "@HookActions"
+    meta_twitter_creator = "@HookActions"
+
+  [params.logo]
+      mobile = "/images/ha_logo_blue.png"
+      standard  = "/images/ha_logo_blue.png"
