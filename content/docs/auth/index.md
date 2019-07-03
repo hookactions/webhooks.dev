@@ -72,7 +72,7 @@ WEBHOOK_SECRET = b"443c9cec-9dd6-11e9-b610-3c15c2eb7774"
 def my_webhook():
     expected_sig = request.headers.get(HEADER_NAME)
     # CHANGE: compare_sha1_signature for the signature your integration uses
-    if not compare_sha1_signature(WEBHOOK_SECRET, request.body, expected_sig):
+    if not compare_sha1_signature(WEBHOOK_SECRET, request.data.encode(), expected_sig):
         abort(403)
     # ... process data
     return 'ok'
