@@ -39,6 +39,45 @@ compare_sha256_signature = partial(compare_signature, sha256)
 
 It's important to note that the key and message **must** be `bytes`. `mac.hexdigest()` will return a hexadecimal representation of the signature like `aa52ae4fa3fd04ec91bec056f2cd426b` which is generally how third parties provide the signature.
 
+#### Django
+
+```python
+HEADER_NAME = "X-WEBHOOK-SIGNATURE"
+# CHANGE: use your own unique secret!
+WEBHOOK_SECRET = b"443c9cec-9dd6-11e9-b610-3c15c2eb7774"
+
+
+class MyWehook(View):
+    def get(self, request, *args, **kwargs):
+        expected_sig = request.META.get(HEADER_NAME)
+        # CHANGE: compare_sha1_signature for the signature your integration uses
+        if not compare_sha1_signature(WEBHOOK_SECRET, request.body, expected_sig):
+            return HttpResponseForbidden()
+        # ... process data
+        return JsonResponse({})
+```
+
+#### Flask
+
+```python
+from flask import request, abort
+
+
+HEADER_NAME = "X-WEBHOOK-SIGNATURE"
+# CHANGE: use your own unique secret!
+WEBHOOK_SECRET = b"443c9cec-9dd6-11e9-b610-3c15c2eb7774"
+
+
+@app.route('/my-webhook')
+def my_webhook():
+    expected_sig = request.headers.get(HEADER_NAME)
+    # CHANGE: compare_sha1_signature for the signature your integration uses
+    if not compare_sha1_signature(WEBHOOK_SECRET, request.body, expected_sig):
+        abort(403)
+    # ... process data
+    return 'ok'
+```
+
 ## Appendix I - Authorization
 
 There is a difference between authentication and authorization. Authentication is "I am this person", whereas authorization is "I have access to this item". When working with webhooks, it can be tempting to assume that since our application is using HMAC signature verification that it will never receive malicious data. It's important to think defensively in regards to webhooks.
